@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
 import { Separator } from '@/components/ui/separator';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { UserMenuContent } from '@/components/user-menu-content';
 import { useAppearance } from '@/hooks/use-appearance';
@@ -23,9 +23,8 @@ import { cn } from '@/lib/utils';
 import { dashboard, login, register } from '@/routes';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { Languages, LayoutGrid, LogIn, Menu, Moon, Sun, UserPlus } from 'lucide-react';
+import { Languages, LayoutGrid, LogIn, Menu, Moon, Sun, UserPlus, X } from 'lucide-react';
 import AppLogo from './app-logo';
-import AppLogoIcon from './app-logo-icon';
 
 const mainNavItems: NavItem[] = [
     {
@@ -56,22 +55,77 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
         <>
             <div className="sticky top-0 z-40 border-b border-sidebar-border/80 bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <div className="mx-auto flex h-16 items-center px-4 md:max-w-7xl">
-                    {/* Mobile Menu (Arabic on left) */}
+                    {/* Mobile (Arabic): logo on right, toggles + burger on left */}
                     {locale === 'ar' && (
-                        <div className="lg:hidden rtl:ml-auto">
+                        <div className="flex w-full items-center lg:hidden rtl:flex-row-reverse">
+                            {/* Logo at right in RTL (first item) */}
+                            {canSeeDashboard ? (
+                                <Link href={dashboard()} prefetch className="flex items-center gap-2">
+                                    <AppLogo />
+                                </Link>
+                            ) : (
+                                <Link href={'/'} prefetch className="flex items-center gap-2">
+                                    <AppLogo />
+                                </Link>
+                            )}
+                            <div className="flex-1" />
+                            {/* Theme toggle icon */}
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-9 w-9"
+                                        aria-label={translate('toggle.theme', locale)}
+                                        title={translate('toggle.theme', locale)}
+                                    >
+                                        {appearance === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="start">
+                                    <DropdownMenuRadioGroup
+                                        value={appearance}
+                                        onValueChange={(val) => updateAppearance(val as 'light' | 'dark' | 'system')}
+                                    >
+                                        <DropdownMenuRadioItem value="light">{translate('theme.light', locale)}</DropdownMenuRadioItem>
+                                        <DropdownMenuRadioItem value="dark">{translate('theme.dark', locale)}</DropdownMenuRadioItem>
+                                        <DropdownMenuRadioItem value="system">{translate('theme.system', locale)}</DropdownMenuRadioItem>
+                                    </DropdownMenuRadioGroup>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            {/* Language toggle icon */}
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-9 w-9"
+                                        aria-label={translate('toggle.language', locale)}
+                                        title={translate('toggle.language', locale)}
+                                    >
+                                        <Languages className="size-4 opacity-80" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="start">
+                                    <DropdownMenuItem onClick={() => (window.location.href = `/locale/en`)}>
+                                        {translate('lang.english', locale)}
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => (window.location.href = `/locale/ar`)}>
+                                        {translate('lang.arabic', locale)}
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            {/* Burger menu at left */}
                             <Sheet>
                                 <SheetTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="mr-2 h-[34px] w-[34px]">
+                                    <Button variant="ghost" size="icon" className="ml-1 h-[34px] w-[34px]">
                                         <Menu className="h-5 w-5" />
                                     </Button>
                                 </SheetTrigger>
-                                <SheetContent side={'left'} className="flex h-full w-72 flex-col items-stretch justify-between bg-sidebar">
+                                <SheetContent side={'right'} className="flex h-full w-72 flex-col items-stretch justify-between bg-sidebar">
                                     <SheetTitle className="sr-only">{translate('header.navigation_menu', locale)}</SheetTitle>
-                                    <SheetHeader className="flex justify-start text-start">
-                                        <AppLogoIcon className="h-6 w-6 fill-current text-black dark:text-white" />
-                                    </SheetHeader>
+                                    <SheetHeader className="flex justify-start text-start"></SheetHeader>
                                     <div className="flex h-full flex-1 flex-col space-y-5 p-4 text-sm">
-                                        {/* Auth quick actions */}
                                         {!auth.user && (
                                             <div className="flex items-center gap-2">
                                                 <Link href={login()} className="flex-1">
@@ -86,7 +140,6 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                 </Link>
                                             </div>
                                         )}
-
                                         {canSeeDashboard && (
                                             <div className="flex flex-col space-y-3">
                                                 {mainNavItems.map((item) => (
@@ -101,7 +154,6 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                 ))}
                                             </div>
                                         )}
-
                                         {rightNavItems.length > 0 && (
                                             <div className="flex flex-col space-y-3">
                                                 {rightNavItems.map((item) => (
@@ -121,7 +173,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
 
                                         <Separator className="my-1" />
 
-                                        {/* Theme toggle */}
+                                        {/* Theme toggle inside sheet (Arabic mobile) */}
                                         <div className="space-y-2">
                                             <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
                                                 {translate('toggle.theme', locale)}
@@ -146,7 +198,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                             </div>
                                         </div>
 
-                                        {/* Language toggle */}
+                                        {/* Language toggle inside sheet (Arabic mobile) */}
                                         <div className="space-y-2">
                                             <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
                                                 {translate('toggle.language', locale)}
@@ -176,12 +228,13 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                         </div>
                     )}
 
+                    {/* Default logo (hidden on mobile for Arabic, visible otherwise) */}
                     {canSeeDashboard ? (
-                        <Link href={dashboard()} prefetch className="flex items-center gap-2">
+                        <Link href={dashboard()} prefetch className={cn('flex items-center gap-2', isAr ? 'hidden lg:flex' : '')}>
                             <AppLogo />
                         </Link>
                     ) : (
-                        <Link href={'/'} prefetch className="flex items-center gap-2">
+                        <Link href={'/'} prefetch className={cn('flex items-center gap-2', isAr ? 'hidden lg:flex' : '')}>
                             <AppLogo />
                         </Link>
                     )}
@@ -224,10 +277,23 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                             <Menu className="h-5 w-5" />
                                         </Button>
                                     </SheetTrigger>
-                                    <SheetContent side={'right'} className="flex h-full w-72 flex-col items-stretch justify-between bg-sidebar">
+                                    <SheetContent
+                                        side={'right'}
+                                        className="flex h-full w-72 flex-col items-stretch justify-between bg-sidebar [&>button.absolute.top-4.left-4]:hidden"
+                                    >
                                         <SheetTitle className="sr-only">{translate('header.navigation_menu', locale)}</SheetTitle>
-                                        <SheetHeader className="flex justify-start text-start">
-                                            <AppLogoIcon className="h-6 w-6 fill-current text-black dark:text-white" />
+                                        <SheetHeader className="relative flex items-center justify-start text-start">
+                                            <SheetClose asChild>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="absolute top-2 right-2 h-8 w-8"
+                                                    aria-label="Close"
+                                                    title="Close"
+                                                >
+                                                    <X className="h-4 w-4" />
+                                                </Button>
+                                            </SheetClose>
                                         </SheetHeader>
                                         <div className="flex h-full flex-1 flex-col space-y-5 p-4 text-sm">
                                             {!auth.user && (
@@ -350,7 +416,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                 ))}
                             </div>
                         </div>
-                        <div className="flex items-center gap-1">
+                        <div className={cn('flex items-center gap-1', isAr ? 'hidden lg:flex' : '')}>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button
