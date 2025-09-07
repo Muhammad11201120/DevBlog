@@ -12,7 +12,7 @@ import {
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { translate, type SupportedLocale } from '@/lib/i18n';
-import type { SharedData } from '@/types';
+import type { BreadcrumbItem, SharedData } from '@/types';
 import type { BlogPost } from '@/types/blog';
 import { router, useForm, usePage } from '@inertiajs/react';
 import { Calendar, Facebook, Link2, Linkedin, MessageCircle, ThumbsDown, ThumbsUp, Twitter } from 'lucide-react';
@@ -54,6 +54,21 @@ const Show = () => {
 
     const currentLocale = (locale as SupportedLocale) || 'en';
 
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: translate('breadcrumb.dashboard', currentLocale),
+            href: '/dashboard',
+        },
+        {
+            title: translate('breadcrumb.posts', currentLocale),
+            href: '/posts',
+        },
+        {
+            title: translate('breadcrumb.view_post', currentLocale),
+            href: `/posts/${post.id}`,
+        },
+    ];
+
     // removed unused like/dislike/subscribe forms
     const commentForm = useForm({ content: '', parent_id: null as number | null });
     const [replyParentId, setReplyParentId] = useState<number | null>(null);
@@ -69,10 +84,8 @@ const Show = () => {
         });
     };
 
-    const readingTime = Math.max(1, Math.round((post.content?.split(/\s+/)?.length || 0) / 220));
-
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <div className="relative">
                 <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
                     <div className="absolute top-10 left-1/2 size-[28rem] -translate-x-1/2 rounded-full bg-gradient-to-r from-fuchsia-500/20 via-sky-500/20 to-emerald-500/20 blur-3xl" />

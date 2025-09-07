@@ -340,8 +340,63 @@ export default function Welcome() {
                 </AnimatedSection>
 
                 {/* Stats Section */}
-                <AnimatedSection className="bg-gradient-to-r from-blue-600 to-purple-600 py-24">
-                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <AnimatedSection className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 py-24 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+                    {/* Animated background pattern */}
+                    <motion.div
+                        className="absolute inset-0 opacity-20"
+                        style={{
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                        }}
+                        animate={{
+                            backgroundPosition: ['0% 0%', '100% 100%'],
+                        }}
+                        transition={{
+                            duration: 20,
+                            repeat: Infinity,
+                            repeatType: 'reverse',
+                            ease: 'linear',
+                        }}
+                    />
+
+                    {/* Floating geometric shapes */}
+                    <motion.div
+                        className="absolute top-20 left-10 h-20 w-20 rounded-full bg-blue-200/30 blur-xl"
+                        animate={{
+                            y: [-20, 20, -20],
+                            x: [-10, 10, -10],
+                        }}
+                        transition={{
+                            duration: 6,
+                            repeat: Infinity,
+                            ease: 'easeInOut',
+                        }}
+                    />
+                    <motion.div
+                        className="absolute top-40 right-20 h-32 w-32 rounded-full bg-purple-200/30 blur-xl"
+                        animate={{
+                            y: [20, -20, 20],
+                            x: [10, -10, 10],
+                        }}
+                        transition={{
+                            duration: 8,
+                            repeat: Infinity,
+                            ease: 'easeInOut',
+                        }}
+                    />
+                    <motion.div
+                        className="absolute bottom-20 left-1/4 h-16 w-16 rounded-full bg-indigo-200/30 blur-xl"
+                        animate={{
+                            y: [-15, 15, -15],
+                            x: [-5, 5, -5],
+                        }}
+                        transition={{
+                            duration: 7,
+                            repeat: Infinity,
+                            ease: 'easeInOut',
+                        }}
+                    />
+
+                    <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <motion.div
                             className="mb-16 text-center"
                             variants={fadeInDown}
@@ -349,8 +404,10 @@ export default function Welcome() {
                             whileInView="visible"
                             viewport={{ once: true, amount: 0.3 }}
                         >
-                            <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">{translate('welcome.stats_title', locale)}</h2>
-                            <p className="mt-4 text-xl text-blue-100">{translate('welcome.stats_subtitle', locale)}</p>
+                            <h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+                                {translate('welcome.stats_title', locale)}
+                            </h2>
+                            <p className="mt-4 text-xl text-muted-foreground">{translate('welcome.stats_subtitle', locale)}</p>
                         </motion.div>
 
                         <motion.div
@@ -361,37 +418,53 @@ export default function Welcome() {
                             viewport={{ once: true, amount: 0.2 }}
                         >
                             <motion.div className="text-center" variants={bounceIn} whileHover={{ scale: 1.05 }}>
-                                <motion.div className="text-5xl font-bold text-white sm:text-6xl" variants={pulse} animate="pulse">
+                                <motion.div
+                                    className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-5xl font-bold text-transparent sm:text-6xl"
+                                    variants={pulse}
+                                    animate="pulse"
+                                >
                                     {translate('welcome.stat_1_number', locale)}
                                 </motion.div>
-                                <motion.div className="mt-2 text-xl text-blue-100" variants={fadeInUp}>
+                                <motion.div className="mt-2 text-xl text-muted-foreground" variants={fadeInUp}>
                                     {translate('welcome.stat_1_label', locale)}
                                 </motion.div>
                             </motion.div>
 
                             <motion.div className="text-center" variants={bounceIn} whileHover={{ scale: 1.05 }}>
-                                <motion.div className="text-5xl font-bold text-white sm:text-6xl" variants={pulse} animate="pulse">
+                                <motion.div
+                                    className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-5xl font-bold text-transparent sm:text-6xl"
+                                    variants={pulse}
+                                    animate="pulse"
+                                >
                                     {translate('welcome.stat_2_number', locale)}
                                 </motion.div>
-                                <motion.div className="mt-2 text-xl text-blue-100" variants={fadeInUp}>
+                                <motion.div className="mt-2 text-xl text-muted-foreground" variants={fadeInUp}>
                                     {translate('welcome.stat_2_label', locale)}
                                 </motion.div>
                             </motion.div>
 
                             <motion.div className="text-center" variants={bounceIn} whileHover={{ scale: 1.05 }}>
-                                <motion.div className="text-5xl font-bold text-white sm:text-6xl" variants={pulse} animate="pulse">
+                                <motion.div
+                                    className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-5xl font-bold text-transparent sm:text-6xl"
+                                    variants={pulse}
+                                    animate="pulse"
+                                >
                                     {translate('welcome.stat_3_number', locale)}
                                 </motion.div>
-                                <motion.div className="mt-2 text-xl text-blue-100" variants={fadeInUp}>
+                                <motion.div className="mt-2 text-xl text-muted-foreground" variants={fadeInUp}>
                                     {translate('welcome.stat_3_label', locale)}
                                 </motion.div>
                             </motion.div>
 
                             <motion.div className="text-center" variants={bounceIn} whileHover={{ scale: 1.05 }}>
-                                <motion.div className="text-5xl font-bold text-white sm:text-6xl" variants={pulse} animate="pulse">
+                                <motion.div
+                                    className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-5xl font-bold text-transparent sm:text-6xl"
+                                    variants={pulse}
+                                    animate="pulse"
+                                >
                                     {translate('welcome.stat_4_number', locale)}
                                 </motion.div>
-                                <motion.div className="mt-2 text-xl text-blue-100" variants={fadeInUp}>
+                                <motion.div className="mt-2 text-xl text-muted-foreground" variants={fadeInUp}>
                                     {translate('welcome.stat_4_label', locale)}
                                 </motion.div>
                             </motion.div>
@@ -400,7 +473,7 @@ export default function Welcome() {
                 </AnimatedSection>
 
                 {/* Newsletter Section */}
-                <AnimatedSection className="bg-slate-50 py-24 dark:bg-slate-800">
+                <AnimatedSection className="bg-slate-50 py-24 dark:bg-background">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <motion.div
                             className="mx-auto max-w-2xl text-center"
@@ -596,7 +669,7 @@ export default function Welcome() {
                 </AnimatedSection>
 
                 {/* Latest Posts Section */}
-                <section id="posts" className="bg-slate-50 py-24 dark:bg-slate-800">
+                <section id="posts" className="bg-slate-50 py-24 dark:bg-background">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <motion.div
                             className="mb-16 text-center"

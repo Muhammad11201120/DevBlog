@@ -2,7 +2,7 @@ import RichTextEditor from '@/components/rich-text-editor';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { translate, type SupportedLocale } from '@/lib/i18n';
-import type { SharedData } from '@/types';
+import type { BreadcrumbItem, SharedData } from '@/types';
 import { useForm, usePage } from '@inertiajs/react';
 import { Image as ImageIcon, X } from 'lucide-react';
 import React, { useState } from 'react';
@@ -19,6 +19,21 @@ export default function Create() {
     const { locale, categories } = usePage<SharedData & { categories: Category[] }>().props;
     const currentLocale = (locale as SupportedLocale) || 'en';
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: translate('breadcrumb.dashboard', currentLocale),
+            href: '/dashboard',
+        },
+        {
+            title: translate('breadcrumb.posts', currentLocale),
+            href: '/posts',
+        },
+        {
+            title: translate('breadcrumb.create_post', currentLocale),
+            href: '/posts/create',
+        },
+    ];
     const form = useForm({
         title: '',
         slug: '',
@@ -54,7 +69,7 @@ export default function Create() {
     };
 
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <form onSubmit={submit} className="mx-auto max-w-2xl space-y-4">
                 <div>
                     <label className="block text-sm font-medium">{translate('post.title', currentLocale)}</label>

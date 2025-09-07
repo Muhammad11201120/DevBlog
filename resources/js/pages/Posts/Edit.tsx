@@ -4,7 +4,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
+import { translate, type SupportedLocale } from '@/lib/i18n';
 import { posts } from '@/routes/simple';
+import type { BreadcrumbItem } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { ArrowLeft, Image as ImageIcon, X } from 'lucide-react';
 import React, { useState } from 'react';
@@ -18,7 +20,7 @@ interface Category {
 }
 
 export default function Edit() {
-    const { post, categories } = usePage<{
+    const { post, categories, locale } = usePage<{
         post: {
             id: number;
             title: string;
@@ -30,7 +32,25 @@ export default function Edit() {
             category_id?: number;
         };
         categories: Category[];
+        locale?: SupportedLocale;
     }>().props;
+
+    const currentLocale = (locale as SupportedLocale) || 'en';
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: translate('breadcrumb.dashboard', currentLocale),
+            href: '/dashboard',
+        },
+        {
+            title: translate('breadcrumb.posts', currentLocale),
+            href: '/posts',
+        },
+        {
+            title: translate('breadcrumb.edit_post', currentLocale),
+            href: posts.edit(post.id),
+        },
+    ];
 
     const [imagePreview, setImagePreview] = useState<string | null>(post.image_url || null);
     const form = useForm({
@@ -68,7 +88,7 @@ export default function Edit() {
     };
 
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <div className="mx-auto max-w-4xl space-y-6">
                 <div className="flex items-center gap-4">
                     <Link href={posts.index()}>

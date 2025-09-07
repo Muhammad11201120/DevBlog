@@ -22,7 +22,7 @@ export default function DeleteUser() {
 
                 <Dialog>
                     <DialogTrigger asChild>
-                        <Button variant="destructive">Delete account</Button>
+                        <Button className="bg-red-600 text-white hover:bg-red-700 focus:ring-red-500">Delete account</Button>
                     </DialogTrigger>
                     <DialogContent>
                         <DialogTitle>Are you sure you want to delete your account?</DialogTitle>
@@ -66,7 +66,7 @@ export default function DeleteUser() {
                                             </Button>
                                         </DialogClose>
 
-                                        <Button variant="destructive" disabled={processing} asChild>
+                                        <Button className="bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 disabled:bg-red-400 disabled:cursor-not-allowed" disabled={processing} asChild>
                                             <button type="submit">Delete account</button>
                                         </Button>
                                     </DialogFooter>

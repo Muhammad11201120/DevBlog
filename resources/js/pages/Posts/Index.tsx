@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import AppLayout from '@/layouts/app-layout';
-import { type SupportedLocale } from '@/lib/i18n';
+import { translate, type SupportedLocale } from '@/lib/i18n';
 import { getPaginationLabel } from '@/lib/pagination';
-import type { User } from '@/types';
+import type { BreadcrumbItem, User } from '@/types';
 import type { BlogPost } from '@/types/blog';
 import { Link, usePage } from '@inertiajs/react';
 
@@ -15,8 +15,19 @@ const Index = () => {
     const { posts, auth } = page.props;
     const locale = (page.props.locale as SupportedLocale) || 'en';
 
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: translate('breadcrumb.dashboard', locale),
+            href: '/dashboard',
+        },
+        {
+            title: translate('breadcrumb.posts', locale),
+            href: '/posts',
+        },
+    ];
+
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             {/* Search removed */}
             <div className="mb-4 flex items-center justify-end">
                 {auth?.user && (auth.user.role === 'writer' || auth.user.role === 'admin') && (

@@ -43,7 +43,7 @@ export default function EditCategory() {
                 .trim();
             form.setData('slug', slug);
         }
-    }, [form.data.name]);
+    }, [form.data.name, form.data.slug, form]);
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();

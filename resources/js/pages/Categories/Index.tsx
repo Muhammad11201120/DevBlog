@@ -17,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { translate, type SupportedLocale } from '@/lib/i18n';
-import type { SharedData } from '@/types';
+import type { BreadcrumbItem, SharedData } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Calendar, Edit, Eye, FileText, Plus, Search, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
@@ -63,6 +63,17 @@ export default function CategoriesIndex() {
 
     const { categories, filters } = page.props;
     const locale = (page.props.locale as SupportedLocale) || 'en';
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: translate('breadcrumb.dashboard', locale),
+            href: '/dashboard',
+        },
+        {
+            title: translate('breadcrumb.categories', locale),
+            href: '/categories',
+        },
+    ];
 
     // Ensure filters is always an object with safe defaults
     // Handle both array and object cases
@@ -157,7 +168,7 @@ export default function CategoriesIndex() {
     };
 
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={translate('admin.categories.title', locale)} />
 
             <div className={`space-y-6 ${locale === 'ar' ? 'rtl' : 'ltr'}`}>
@@ -297,7 +308,7 @@ export default function CategoriesIndex() {
                                                                 </AlertDialogCancel>
                                                                 <AlertDialogAction
                                                                     onClick={() => handleDelete(category.id)}
-                                                                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                                                    className="bg-red-600 text-white hover:bg-red-700 focus:ring-red-500"
                                                                 >
                                                                     {translate('admin.categories.delete_confirm_button', locale)}
                                                                 </AlertDialogAction>
@@ -388,7 +399,7 @@ export default function CategoriesIndex() {
                                                                         </AlertDialogCancel>
                                                                         <AlertDialogAction
                                                                             onClick={() => handleDelete(category.id)}
-                                                                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                                                            className="bg-red-600 text-white hover:bg-red-700 focus:ring-red-500"
                                                                         >
                                                                             {translate('admin.categories.delete_confirm_button', locale)}
                                                                         </AlertDialogAction>

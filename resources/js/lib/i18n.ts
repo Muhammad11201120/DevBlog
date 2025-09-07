@@ -292,6 +292,17 @@ const en: Dictionary = {
     'footer.cookies': 'Cookie Policy',
     'footer.license': 'License',
     'footer.copyright': '© {year} Muhammed Issa. All rights reserved.',
+    // Breadcrumbs
+    'breadcrumb.dashboard': 'Dashboard',
+    'breadcrumb.posts': 'Posts',
+    'breadcrumb.categories': 'Categories',
+    'breadcrumb.admin_posts': 'Posts Management',
+    'breadcrumb.create_post': 'Create Post',
+    'breadcrumb.edit_post': 'Edit Post',
+    'breadcrumb.view_post': 'View Post',
+    'breadcrumb.create_category': 'Create Category',
+    'breadcrumb.edit_category': 'Edit Category',
+    'breadcrumb.view_category': 'View Category',
 };
 
 const ar: Dictionary = {
@@ -531,6 +542,8 @@ const ar: Dictionary = {
     'admin.categories.created_desc': 'الأحدث أولاً',
     'admin.categories.name_asc': 'الاسم (أ-ي)',
     'admin.categories.posts_desc': 'أكثر المقالات',
+    'admin.categories.name_desc': 'الاسم (ي-أ)',
+    'admin.dashboard.manage_categories': 'إدارة التصنيفات',
     // Common
     'common.view': 'عرض',
     'common.on': 'على',
@@ -618,6 +631,17 @@ const ar: Dictionary = {
     'footer.cookies': 'سياسة ملفات تعريف الارتباط',
     'footer.license': 'الترخيص',
     'footer.copyright': '© {year} محمد عيسى | جميع الحقوق محفوظة.',
+    // Breadcrumbs
+    'breadcrumb.dashboard': 'لوحة التحكم',
+    'breadcrumb.posts': 'المقالات',
+    'breadcrumb.categories': 'التصنيفات',
+    'breadcrumb.admin_posts': 'إدارة المقالات',
+    'breadcrumb.create_post': 'إنشاء مقال',
+    'breadcrumb.edit_post': 'تعديل مقال',
+    'breadcrumb.view_post': 'عرض مقال',
+    'breadcrumb.create_category': 'إنشاء تصنيف',
+    'breadcrumb.edit_category': 'تعديل تصنيف',
+    'breadcrumb.view_category': 'عرض تصنيف',
 };
 
 const dictionaries: Record<SupportedLocale, Dictionary> = { en, ar };

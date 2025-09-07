@@ -119,7 +119,8 @@ export default function Dashboard() {
                                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                         <Link href="/categories">
                                             <Button size="sm" variant="outline" className="gap-2">
-                                                <Icon iconNode={Wand2} className="size-4" /> Manage Categories
+                                                <Icon iconNode={Wand2} className="size-4" />{' '}
+                                                {translate('admin.dashboard.manage_categories', currentLocale)}
                                             </Button>
                                         </Link>
                                     </motion.div>

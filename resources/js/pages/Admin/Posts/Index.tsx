@@ -19,7 +19,7 @@ import AppLayout from '@/layouts/app-layout';
 import { translate, type SupportedLocale } from '@/lib/i18n';
 import { getPaginationLabel } from '@/lib/pagination';
 import { posts } from '@/routes/simple';
-import type { User } from '@/types';
+import type { BreadcrumbItem, User } from '@/types';
 import type { BlogPost } from '@/types/blog';
 import { Link, router, usePage } from '@inertiajs/react';
 import {
@@ -49,6 +49,17 @@ const AdminPostsIndex = () => {
     const [deletingPost, setDeletingPost] = useState<number | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: translate('breadcrumb.dashboard', locale),
+            href: '/dashboard',
+        },
+        {
+            title: translate('breadcrumb.admin_posts', locale),
+            href: posts.index(),
+        },
+    ];
 
     const handleDelete = (postId: number) => {
         setDeletingPost(postId);
@@ -130,7 +141,7 @@ const AdminPostsIndex = () => {
     });
 
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <div className="space-y-6">
                 {/* Header Section */}
                 <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
@@ -364,7 +375,7 @@ const AdminPostsIndex = () => {
                                                                 </AlertDialogCancel>
                                                                 <AlertDialogAction
                                                                     onClick={() => handleDelete(post.id)}
-                                                                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                                                    className="bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 disabled:cursor-not-allowed disabled:bg-red-400"
                                                                     disabled={deletingPost === post.id}
                                                                 >
                                                                     {deletingPost === post.id

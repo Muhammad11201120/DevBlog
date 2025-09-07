@@ -84,4 +84,7 @@ return [
     'posts' => 'Posts',
     'dashboard' => 'Dashboard',
   ],
+  'dashboard' => [
+    'manage_categories' => 'Manage Categories',
+  ],
 ];

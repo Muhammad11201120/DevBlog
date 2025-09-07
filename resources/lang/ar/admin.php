@@ -84,4 +84,7 @@ return [
         'posts' => 'المقالات',
         'dashboard' => 'لوحة التحكم',
     ],
+    'dashboard' => [
+        'manage_categories' => 'إدارة التصنيفات',
+    ],
 ];
