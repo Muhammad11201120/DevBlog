@@ -6,13 +6,15 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use App\Models\Post;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-    $posts = Post::with('user')
+    $posts = Post::with(['user', 'category'])
         ->withCount([
             'comments',
             'likes as likes_count' => fn($q) => $q->where('is_dislike', false),
@@ -22,6 +24,7 @@ Route::get('/', function () {
         ->paginate(12)
         ->withQueryString();
 
+
     return Inertia::render('welcome', [
         'posts' => $posts,
     ]);
@@ -29,11 +32,11 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
-        $user = auth()->user();
+        $user = Auth::user();
         if (! $user) {
             abort(403);
         }
-        if (method_exists($user, 'can') && ! $user->can('access-dashboard')) {
+        if (! $user->can('access-dashboard')) {
             abort(403);
         }
         return app(DashboardController::class)();
@@ -49,8 +52,18 @@ Route::middleware('auth')->group(function () {
     Route::post('/comments/{comment}/like', [LikeController::class, 'toggleComment'])->name('comments.like');
 });
 
+// Category routes (admin only)
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('categories', CategoryController::class);
+    Route::get('/admin/posts', [PostController::class, 'adminIndex'])->name('admin.posts.index');
+});
+
 // Public posts routes (register after create to avoid /posts/create being captured by /posts/{post})
 Route::resource('posts', PostController::class)->only(['index', 'show']);
+
+// Public category routes
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

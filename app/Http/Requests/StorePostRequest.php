@@ -26,7 +26,10 @@ class StorePostRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255', 'unique:posts,slug'],
             'content' => ['required', 'string'],
+            'excerpt' => ['nullable', 'string', 'max:500'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
             'published_at' => ['nullable', 'date'],
+            'category_id' => ['nullable', 'exists:categories,id'],
         ];
     }
 }

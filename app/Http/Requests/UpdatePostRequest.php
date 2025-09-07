@@ -27,7 +27,10 @@ class UpdatePostRequest extends FormRequest
             'title' => ['sometimes', 'required', 'string', 'max:255'],
             'slug' => ['sometimes', 'required', 'string', 'max:255', 'unique:posts,slug,' . $postId],
             'content' => ['sometimes', 'required', 'string'],
+            'excerpt' => ['nullable', 'string', 'max:500'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
             'published_at' => ['nullable', 'date'],
+            'category_id' => ['nullable', 'exists:categories,id'],
         ];
     }
 }

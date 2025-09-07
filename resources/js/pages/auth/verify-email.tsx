@@ -1,21 +1,23 @@
 // Components
 import EmailVerificationNotificationController from '@/actions/App/Http/Controllers/Auth/EmailVerificationNotificationController';
 import { logout } from '@/routes';
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, usePage } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
+import { translate, type SupportedLocale } from '@/lib/i18n';
 
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import AuthLayout from '@/layouts/auth-layout';
 
 export default function VerifyEmail({ status }: { status?: string }) {
+    const locale = ((usePage().props as any).locale as SupportedLocale) || 'en';
     return (
-        <AuthLayout title="Verify email" description="Please verify your email address by clicking on the link we just emailed to you.">
-            <Head title="Email verification" />
+        <AuthLayout title={translate('auth.verify.head', locale)} description={translate('auth.verify.description', locale)}>
+            <Head title={translate('auth.verify.title', locale)} />
 
             {status === 'verification-link-sent' && (
                 <div className="mb-4 text-center text-sm font-medium text-green-600">
-                    A new verification link has been sent to the email address you provided during registration.
+                    {translate('auth.verify.link_sent', locale)}
                 </div>
             )}
 
@@ -24,11 +26,11 @@ export default function VerifyEmail({ status }: { status?: string }) {
                     <>
                         <Button disabled={processing} variant="secondary">
                             {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                            Resend verification email
+                            {translate('auth.verify.cta', locale)}
                         </Button>
 
                         <TextLink href={logout()} className="mx-auto block text-sm">
-                            Log out
+                            {translate('auth.log_out', locale)}
                         </TextLink>
                     </>
                 )}

@@ -35,10 +35,20 @@ const Index = () => {
                         </CardHeader>
                         <CardContent>
                             <div className="text-sm text-muted-foreground">by {post.user?.name ?? 'Unknown'}</div>
+                            {post.category && (
+                                <div className="mt-1">
+                                    <span
+                                        className="inline-block rounded-full px-2 py-1 text-xs font-medium text-white"
+                                        style={{ backgroundColor: post.category.color }}
+                                    >
+                                        {post.category.name}
+                                    </span>
+                                </div>
+                            )}
                             <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
-                                <span>💬 {post.comments_count ?? 0}</span>
-                                <span>👍 {post.likes_count ?? 0}</span>
-                                <span>👎 {post.dislikes_count ?? 0}</span>
+                                <span> 💬 {post.comments_count ?? 0} </span>
+                                <span> 👍 {post.likes_count ?? 0}</span>
+                                <span> 👎 {post.dislikes_count ?? 0}</span>
                             </div>
                         </CardContent>
                     </Card>

@@ -94,6 +94,14 @@ const Show = () => {
                             <span>
                                 {translate('post.by', currentLocale)} {post.user?.name ?? translate('post.unknown', currentLocale)}
                             </span>
+                            {post.category && (
+                                <span
+                                    className="inline-block rounded-full px-2 py-1 text-xs font-medium text-white"
+                                    style={{ backgroundColor: post.category.color }}
+                                >
+                                    {post.category.name}
+                                </span>
+                            )}
                             {post.created_at && (
                                 <span className="inline-flex items-center gap-1">
                                     <Calendar className="size-4" />
